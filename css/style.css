@@ -1,0 +1,19 @@
+#gamePlace{
+    width: 220px;
+}
+
+.grey{
+    background-color:#e6f331;
+    width: 50px;
+    height: 50px;
+    margin: 1px;
+    text-align: center;
+    font-size: 40px;
+    color: blue;
+    display: block;
+    float: left;
+}
+
+.green {
+    background-color: #92f56e;
+}
