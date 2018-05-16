@@ -4,15 +4,15 @@ const gamePlace = document.getElementById("gamePlace")
 
 const icons = [ '♠', '♣', '♢','♡'];
 const Grid = [];
-const row = 4;
-const col = 4;
+const row = 8;
+const col = 5;
 
 
 function addDataAtribute(){
     let grey = document.getElementsByClassName("grey");
     let count = 0;
-    for(let x = 0; x< 4; x++){
-        for(let y = 0 ; y < 4; y++){
+    for(let x = 0; x< col; x++){
+        for(let y = 0 ; y < row; y++){
             grey[count].setAttribute("x", x);
             grey[count].setAttribute("y", y);
             count++
@@ -24,9 +24,9 @@ function addDataAtribute(){
 }
 
 function createGrid(){
-    for(let x = 0; x< 4; x++){
+    for(let x = 0; x< col; x++){
         Grid[x] = [];
-        for(let y = 0 ; y < 4; y++){
+        for(let y = 0 ; y < row; y++){
             let ran = Math.floor(Math.random()*4) ;
             Grid[x].push(icons[ran]);
             let addItem = "<div class='grey'>"+icons[ran] +"</div>";
@@ -63,13 +63,14 @@ function look(arrayAtribute){
     let testAray = arrayAtribute;
     console.log(testAray);
     let finish = false;
-    let count = 0; 
+    let count = 0;
+    let oneTime = 1; 
     while(!finish){
         count = 0;
         for(let i = 0; testAray.length > i; i++ ){
             let len = arrayAtribute.length; // длинна массива
-            let dX = arrayAtribute[len-1].x;// коордената по икс
-            let dY = arrayAtribute[len-1].y;// коордената по игрык
+            let dX = testAray[i].x;// коордената по икс
+            let dY = testAray[i].y;// коордената по игрык
             console.log(dX,dY);
             let elemGetTop, elemGetLeft, elemGetBottom, elemGetRight;// переменние которые нужно проверить
             let elemGet = document 
@@ -79,6 +80,7 @@ function look(arrayAtribute){
                     elemGetTop = document
                     .querySelector("[x="+"'"+dXT+"']["+"y="+"'"+dY+"'"+"]");
                     if(elemGetTop.innerHTML == elemGet.innerHTML){
+                        
                         if(!elemGetTop.classList.contains('green')){
                             elemGetTop.classList.add("green");
                             let x = elemGetTop.getAttribute('x');
@@ -93,6 +95,7 @@ function look(arrayAtribute){
                     elemGetLeft = document
                     .querySelector("[x="+"'"+dX+"']["+"y="+"'"+dYL+"'"+"]");
                     if(elemGetLeft.innerHTML == elemGet.innerHTML){
+                        
                         if(!elemGetLeft.classList.contains('green')){
                             elemGetLeft.classList.add("green");
                             let x = elemGetLeft.getAttribute('x');
@@ -102,11 +105,12 @@ function look(arrayAtribute){
                         }
                     }
                 }
-                if(dX<3){
+                if(dX<col-1){
                     let dXB = +dX+1;
                     elemGetBottom = document
                     .querySelector("[x="+"'"+dXB+"']["+"y="+"'"+dY+"'"+"]");
                     if(elemGetBottom.innerHTML == elemGet.innerHTML){
+                        
                         if(! elemGetBottom.classList.contains('green')){
                             elemGetBottom.classList.add("green");
                             let x = elemGetBottom.getAttribute('x');
@@ -116,11 +120,12 @@ function look(arrayAtribute){
                         }
                     } 
                 }
-                if(dY<3){
+                if(dY<row-1){
                     let dYR = +dY+1;
                     elemGetRight = document
                     .querySelector("[x="+"'"+dX+"']["+"y="+"'"+dYR+"'"+"]");
                     if(elemGetRight.innerHTML == elemGet.innerHTML){
+                        
                         if(! elemGetRight.classList.contains('green')){
                             elemGetRight.classList.add("green");
                             let x = elemGetRight.getAttribute('x');
@@ -132,8 +137,11 @@ function look(arrayAtribute){
                 }
                 }
         console.log(count + " count");
-        if(count == 0){
-            finish = true;
+        if(count == 0){  
+            if(oneTime == 0){
+                finish = true;
+            }
+            oneTime = oneTime - 1;
         }
     };
 }
