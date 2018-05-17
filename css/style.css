@@ -26,5 +26,6 @@
 }
 
 .delete {
-    background-color: white;
+    box-shadow: none;
+    background-color: rgb(85, 26, 141);
 }
