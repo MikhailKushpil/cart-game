@@ -5,19 +5,18 @@ const gamePlace = document.getElementById("gamePlace")
 const icons = [ '♠', '♣', '♢','♡'];
 const Grid = [];
 const row = 8;
-const col = 5;
-
+const col = 8;
 
 function addDataAtribute(){
-    let grey = document.getElementsByClassName("grey");
+    let not_active = document.getElementsByClassName("not_active");
     let count = 0;
     for(let x = 0; x< col; x++){
         for(let y = 0 ; y < row; y++){
-            grey[count].setAttribute("x", x);
-            grey[count].setAttribute("y", y);
+            not_active[count].setAttribute("x", x);
+            not_active[count].setAttribute("y", y);
             count++
         }
-        if(count > grey.length){
+        if(count >not_active.length){
             break;
         }
     }
@@ -29,39 +28,37 @@ function createGrid(){
         for(let y = 0 ; y < row; y++){
             let ran = Math.floor(Math.random()*4) ;
             Grid[x].push(icons[ran]);
-            let addItem = "<div class='grey'>"+icons[ran] +"</div>";
+            let addItem = "<div class='not_active'>"+icons[ran] +"</div>";
             gamePlace.innerHTML += addItem;
         }
     }
 }
 
 function test(){
-    let grey = document.getElementsByClassName("grey");
-    for(let i=0; grey.length > i; i++){
-        grey[i].addEventListener("mouseover", function(e){
+    let not_active = document.getElementsByClassName("not_active");
+    for(let i=0; not_active.length > i; i++){
+        not_active[i].addEventListener("mouseover", function(e){
             let arrayAtribute = [];
             let coordinates; 
-            e.target.classList.add("green");
+            e.target.classList.add("active");
             let x = e.target.getAttribute('x');
             let y = e.target.getAttribute('y');
             arrayAtribute.push({'x': x, 'y': y });
             look(arrayAtribute);
         });
 
-        grey[i].addEventListener("mouseout", function(e){
-            
-            for(let i=0;grey.length>i;i++ ){
-                if(grey[i].classList.contains('green')){
-                    grey[i].classList.remove("green");
+        not_active[i].addEventListener("mouseout", function(e){
+            for(let i=0;not_active.length>i;i++ ){
+                if(not_active[i].classList.contains('active')){
+                    not_active[i].classList.remove("active");
                 }
             }
-        });  
+        });
     }
 }
 
 function look(arrayAtribute){
     let testAray = arrayAtribute;
-    console.log(testAray);
     let finish = false;
     let count = 0;
     let oneTime = 1; 
@@ -71,7 +68,6 @@ function look(arrayAtribute){
             let len = arrayAtribute.length; // длинна массива
             let dX = testAray[i].x;// коордената по икс
             let dY = testAray[i].y;// коордената по игрык
-            console.log(dX,dY);
             let elemGetTop, elemGetLeft, elemGetBottom, elemGetRight;// переменние которые нужно проверить
             let elemGet = document 
                 .querySelector("[x="+"'"+dX+"']["+"y="+"'"+dY+"'"+"]");// елемент над которым находится мышь
@@ -80,29 +76,15 @@ function look(arrayAtribute){
                     elemGetTop = document
                     .querySelector("[x="+"'"+dXT+"']["+"y="+"'"+dY+"'"+"]");
                     if(elemGetTop.innerHTML == elemGet.innerHTML){
-                        
-                        if(!elemGetTop.classList.contains('green')){
-                            elemGetTop.classList.add("green");
-                            let x = elemGetTop.getAttribute('x');
-                            let y = elemGetTop.getAttribute('y');
-                            testAray.push({'x': x, 'y': y });
-                            count++;// добавим елемент в массив для перепроверки
-                        }
+                        testClassName(elemGetTop,testAray, count);
                     }
                 }
                 if(dY > 0){
                    let dYL = +dY-1;
                     elemGetLeft = document
                     .querySelector("[x="+"'"+dX+"']["+"y="+"'"+dYL+"'"+"]");
-                    if(elemGetLeft.innerHTML == elemGet.innerHTML){
-                        
-                        if(!elemGetLeft.classList.contains('green')){
-                            elemGetLeft.classList.add("green");
-                            let x = elemGetLeft.getAttribute('x');
-                            let y = elemGetLeft.getAttribute('y');
-                            testAray.push({'x': x, 'y': y });
-                            count++;// добавим елемент в массив для перепроверки
-                        }
+                    if(elemGetLeft.innerHTML == elemGet.innerHTML){                
+                        testClassName(elemGetLeft,testAray, count);
                     }
                 }
                 if(dX<col-1){
@@ -110,14 +92,7 @@ function look(arrayAtribute){
                     elemGetBottom = document
                     .querySelector("[x="+"'"+dXB+"']["+"y="+"'"+dY+"'"+"]");
                     if(elemGetBottom.innerHTML == elemGet.innerHTML){
-                        
-                        if(! elemGetBottom.classList.contains('green')){
-                            elemGetBottom.classList.add("green");
-                            let x = elemGetBottom.getAttribute('x');
-                            let y = elemGetBottom.getAttribute('y');
-                            testAray.push({'x': x, 'y': y });
-                            count++;// добавим елемент в массив для перепроверки
-                        }
+                        testClassName(elemGetBottom,testAray, count);
                     } 
                 }
                 if(dY<row-1){
@@ -125,18 +100,20 @@ function look(arrayAtribute){
                     elemGetRight = document
                     .querySelector("[x="+"'"+dX+"']["+"y="+"'"+dYR+"'"+"]");
                     if(elemGetRight.innerHTML == elemGet.innerHTML){
-                        
-                        if(! elemGetRight.classList.contains('green')){
-                            elemGetRight.classList.add("green");
-                            let x = elemGetRight.getAttribute('x');
-                            let y = elemGetRight.getAttribute('y');
-                            testAray.push({'x': x, 'y': y });
-                            count++;// добавим елемент в массив для перепроверки
-                        }
+                        testClassName(elemGetRight,testAray, count);
                     }  
                 }
-                }
-        console.log(count + " count");
+                elemGet.addEventListener("click", function(){
+                    let not_active = document.getElementsByClassName("not_active");
+                    for(let i=0;not_active.length>i;i++ ){
+                        if(not_active[i].classList.contains('active')){
+
+                            not_active[i].classList.add("delete");
+                            not_active[i].innerHTML = " ";
+                        }
+                    }
+                });
+            }
         if(count == 0){  
             if(oneTime == 0){
                 finish = true;
@@ -146,6 +123,16 @@ function look(arrayAtribute){
     };
 }
 
+function testClassName(item,testAray,count){
+    if(! item.classList.contains('active')){
+        item.classList.add("active");
+        let x = item.getAttribute('x');
+        let y = item.getAttribute('y');
+        testAray.push({'x': x, 'y': y });
+        count++;// добавим елемент в массив для перепроверки
+        return testAray, count;
+    }
+};
 createGrid();
 test();
 addDataAtribute();

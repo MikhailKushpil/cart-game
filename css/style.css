@@ -4,7 +4,7 @@
     margin: auto;
 }
 
-.grey{
+.not_active {
     background-color:#cff85f;
     width: 50px;
     height: 50px;
@@ -17,9 +17,14 @@
     box-shadow: 10px 10px 0.2em rgb(89, 252, 14);
 }
 
-.green {
+.active {
     box-shadow: 10px 10px 0.5em rgb(89, 0, 255);
     background-color: #0c69ff;
     color: rgb(255, 255, 255);
     font-weight: 900;
+    cursor: pointer;
+}
+
+.delete {
+    background-color: white;
 }
