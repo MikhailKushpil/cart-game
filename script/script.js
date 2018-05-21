@@ -107,7 +107,6 @@ function look(arrayAtribute){
                     let not_active = document.getElementsByClassName("not_active");
                     for(let i=0;not_active.length>i;i++ ){
                         if(not_active[i].classList.contains('active')){
-
                             not_active[i].classList.add("delete");
                             not_active[i].innerHTML = " ";
                         }

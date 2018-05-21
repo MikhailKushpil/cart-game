@@ -26,6 +26,10 @@
 }
 
 .delete {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
     box-shadow: none;
     background-color: rgb(85, 26, 141);
+    transform: rotateY(180deg);
 }
